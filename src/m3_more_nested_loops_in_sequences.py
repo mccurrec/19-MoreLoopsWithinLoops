@@ -4,8 +4,8 @@ in the context of SEQUENCES OF SUB-SEQUENCES.
 
 Authors: David Mutchler, Vibha Alangar, Matt Boutell, Dave Fisher,
          Mark Hays, Amanda Stouder, Aaron Wilkin, their colleagues,
-         and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         and Ezrie McCurry.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 
 def main():
@@ -18,7 +18,7 @@ def main():
 def run_test_largest_number():
     """ Tests the    largest_number    function. """
     # -------------------------------------------------------------------------
-    # TODO: 2. Implement this TEST function.
+    # DONE: 2. Implement this TEST function.
     #   It TESTS the  largest_number  function defined below.
     #   Include at least ** 1 ** ADDITIONAL test beyond those we wrote.
     # -------------------------------------------------------------------------
@@ -44,8 +44,11 @@ def run_test_largest_number():
     answer = largest_number(([], [], []))
     print('Expected and actual are:', expected, answer)
 
-    # TODO 2 (continued): Add your ADDITIONAL test(s) here:
-
+    # DONE 2 (continued): Add your ADDITIONAL test(s) here:
+    # Test 4:
+    expected = 0
+    answer = largest_number(([], [0]))
+    print('Expected and actual are:', expected, answer)
 
 def largest_number(seq_seq):
     """
@@ -73,15 +76,40 @@ def largest_number(seq_seq):
     where each subsequence contains only numbers.
     """
     # -------------------------------------------------------------------------
-    # TODO: 3. Implement and test this function.
+    # DONE: 3. Implement and test this function.
     #   Note that you should write its TEST function first (above).
     # -------------------------------------------------------------------------
-
+    # for j in range(len(seq_seq)):
+    #     for k in range(len(seq_seq[j])):
+    #         if seq_seq[j][k] > maximum_of_sub:
+    #             maximum_of_sub = seq_seq[j][k]
+    #     if maximum_of_sub > maximum_of_all:
+    #         maximum_of_all = maximum_of_sub
+    k = 0
+    while True:
+        if len(seq_seq[k]) > 0:
+            break
+        k = k + 1
+        if k >= len(seq_seq):
+            k = None
+            break
+    if k is None:
+        return None
+    else:
+        max_of_all = seq_seq[k][0]
+        max_of_sub = seq_seq[k][0]
+        for j in range(k, len(seq_seq)):
+            for i in range(len(seq_seq[j])):
+                if seq_seq[j][i] > max_of_sub:
+                    max_of_sub = seq_seq[j][i]
+            if max_of_sub > max_of_all:
+                max_of_all = max_of_sub
+    return max_of_all
 
 def run_test_largest_negative_number():
     """ Tests the    largest_negative_number    function. """
     # -------------------------------------------------------------------------
-    # TODO: 4. Implement this TEST function.
+    # DONE: 4. Implement this TEST function.
     #   It TESTS the  largest_negative_number  function defined below.
     #
     #   Include enough tests to give you confidence that your solution
@@ -91,6 +119,26 @@ def run_test_largest_negative_number():
     print('-------------------------------------------------')
     print('Testing the   LARGEST_NEGATIVE_NUMBER   function:')
     print('-------------------------------------------------')
+
+    # Test 1:
+    expected = -2.6
+    answer = largest_negative_number([(930, -5, 8, -20), (100, -2.6, 88, -40, -5), (400, 500)])
+    print('Expected and actual are:', expected, answer)
+
+    # Test 2:
+    expected = None
+    answer = largest_negative_number([(200, 2, 20), (400, 500)])
+    print('Expected and actual are:', expected, answer)
+
+    # Test 3:
+    expected = -1111111111111111
+    answer = largest_negative_number(([], [-1111111111111111], []))
+    print('Expected and actual are:', expected, answer)
+
+    # Test 4:
+    expected = None
+    answer = largest_negative_number(([], [], []))
+    print('Expected and actual are:', expected, answer)
 
 
 def largest_negative_number(seq_seq):
@@ -116,14 +164,34 @@ def largest_negative_number(seq_seq):
     where each subsequence contains only numbers.
     """
     # -------------------------------------------------------------------------
-    # TODO: 5. Implement and test this function.
+    # DONE: 5. Implement and test this function.
     #   Note that you should write its TEST function first (above).
     #
     # CHALLENGE: Try to solve this problem with no additional sequences
     #   being constructed (so the SPACE allowed is limited to the
     #   give sequence of sequences plus any non-list variables you want).
     # -------------------------------------------------------------------------
-
+    k = 0
+    while True:
+        if len(seq_seq[k]) > 0:
+            break
+        k = k + 1
+        if k >= len(seq_seq):
+            k = None
+            break
+    if k is None:
+        return None
+    else:
+        largest_of_all = seq_seq[k][0]
+        largest_of_sub = seq_seq[k][0]
+        for j in range(k, len(seq_seq)):
+            for i in range(len(seq_seq[j])):
+                if seq_seq[j][i] < 0:
+                    if seq_seq[j][i] > largest_of_sub:
+                        largest_of_sub = seq_seq[j][i]
+            if largest_of_sub > largest_of_all:
+                largest_of_all = largest_of_sub
+    return largest_of_all
 
 def run_test_first_is_elsewhere_too():
     """ Tests the    first_is_elsewhere_too    function. """
@@ -356,7 +424,7 @@ def first_is_elsewhere_too(seq_seq):
     and the given argument is a sequence of sequences.
     """
     # -------------------------------------------------------------------------
-    # TODO: 6. Implement and test this function.
+    # DONE: 6. Implement and test this function.
     #          Some tests are already written for you (above).
     #
     # IMPLEMENTATION RESTRICTION:
@@ -371,7 +439,21 @@ def first_is_elsewhere_too(seq_seq):
     #   in this problem, as doing so would defeat the goal of providing
     #   practice at loops within loops (within loops within ...)
     # -------------------------------------------------------------------------
-
+    # returning = False
+    # for k in range(1, len(seq_seq)):
+    #     comparator = seq_seq[0][k]
+    #     for j in range(len(seq_seq[k])):
+    #         if seq_seq[k][j] == comparator:
+    #             returning = True
+    # return returning
+    returning = False
+    for j in range(len(seq_seq[0])):
+        comparator = seq_seq[0][j]
+        for k in range(1, len(seq_seq)):
+            for i in range(len(seq_seq[k])):
+                if comparator == seq_seq[k][i]:
+                    returning = True
+    return returning
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
